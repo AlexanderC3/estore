@@ -15,7 +15,7 @@ import {
   TAuthCredentialsValidator,
 } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const Page = () => {
@@ -48,15 +48,18 @@ const Page = () => {
 
       if (origin) {
         router.push(`/${origin}`);
+        router.refresh();
         return;
       }
 
       if (isSeller) {
         router.push("/sell");
+        router.refresh();
         return;
       }
 
       router.push("/");
+      router.refresh();
     },
     onError: (err) => {
       if (err.data?.code === "UNAUTHORIZED") {
@@ -71,7 +74,6 @@ const Page = () => {
 
   return (
     <>
-      <Toaster position="top-center" richColors />
       <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col items-center space-y-2 text-center">
